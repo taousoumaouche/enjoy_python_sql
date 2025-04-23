@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enjoy - Livraison de nourriture</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <section class="line-image-section">
+        <div class="centered-text">
+            <div class="line"></div>
+            <span>Enjoy</span>
+            <div class="line"></div>
+        </div>
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='hero-food.jpg') }}" alt="Table avec plats appétissants">
+            <div class="overlay">
+                <h1>Click. Commande. Régale-toi.</h1>
+                {% if session.logged_in %}
+                    <div class="button-container">
+                        <a href="/restaurants" class="order-button">Commander maintenant</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="welcome-section">
+        <h2>Bienvenue chez Enjoy</h2>
+		<p>
+			Chez Enjoy, nous livrons vos plats préférés directement chez vous, préparés par les meilleurs restaurants de votre ville. 
+			Fraîcheur, saveurs et rapidité garanties !
+		</p>
+	</section>
+	<section class="services">
+		<h2>Nos prestations de service</h2>
+		<div class="services-grid">
+			<div class="service-item">
+				<i class="fas fa-clock"></i>
+				<h3>Livraison rapide</h3>
+				<p>Vos plats préférés, livrés rapidement et toujours frais.</p>
+			</div>
+			<div class="service-item">
+				<i class="fas fa-utensils"></i>
+				<h3>Restaurants variés</h3>
+				<p>Choisissez parmi une large gamme de cuisines locales et internationales.</p>
+			</div>
+			<div class="service-item">
+				<i class="fas fa-gift"></i>
+				<h3>Offres exclusives</h3>
+				<p>Profitez de promotions et réductions sur vos commandes.</p>
+			</div>
+			<div class="service-item">
+				<i class="fas fa-headset"></i>
+				<h3>Support client</h3>
+				<p>Notre équipe est là pour vous aider, 7j/7.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="faq-section">
+		<h2>Foire aux questions</h2>
+		<div class="faq-item">
+			<button class="faq-question">
+				Quels types de repas proposez-vous ?
+				<span class="icon">+</span>
+			</button>
+			<div class="faq-answer">
+				Nous proposons une large variété de repas : pizzas, burgers, plats végétariens, asiatiques, et bien plus encore.
+			</div>
+		</div>
+		<div class="faq-item">
+			<button class="faq-question">
+				Comment passer une commande ?
+				<span class="icon">+</span>
+			</button>
+			<div class="faq-answer">
+				Sélectionnez un restaurant, ajoutez vos plats préférés au panier, validez votre commande, et nous nous occupons du reste !
+			</div>
+		</div>
+		<div class="faq-item">
+			<button class="faq-question">
+				Quels sont vos délais de livraison ?
+				<span class="icon">+</span>
+			</button>
+			<div class="faq-answer">
+				Nos délais varient entre 20 et 40 minutes en fonction de la distance et de l'affluence.
+			</div>
+		</div>
+	</section>
+	<section class="localisation-section">
+		<h2>Localisation</h2>
+		<div class="map-container">
+			<iframe 
+				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3150937.426508388!2d-2.1890987647490254!3d46.60335438953192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5a8c802000001%3A0x7af98a64dfe7ddf6!2sFrance!5e0!3m2!1sfr!2sfr!4v1678093043748!5m2!1sfr!2sfr" 
+				width="100%" 
+				height="300" 
+				style="border:0;" 
+				allowfullscreen="" 
+				loading="lazy">
+			</iframe>
+		</div>
+		<div class="address">
+			<p><strong>Enjoy</strong></p>
+			<p>Disponible dans plusieurs villes en France</p>
+		</div>
+		<div class="social-icons">
+			<i class="fab fa-facebook"></i>
+			<i class="fab fa-twitter"></i>
+			<i class="fab fa-instagram"></i>
+			<i class="fab fa-youtube"></i>
+		</div>
+	</section>
+
+	<section class="about-section">
+		<h2>Qui sommes-nous ?</h2>
+		<p>
+			Enjoy est une plateforme innovante dédiée à la livraison de repas, 
+			collaborant avec les meilleurs restaurants pour vous offrir une expérience culinaire exceptionnelle.
+			Notre objectif est de simplifier votre quotidien en apportant des plats savoureux et variés, 
+			directement chez vous. Que vous soyez à la maison ou au bureau, Enjoy répond à toutes vos envies culinaires.
+			Faites confiance à notre service rapide et fiable pour une satisfaction garantie.
+		</p>
+	</section>
+    {% include 'footer.html' %}
+    {% include 'scripts.html' %}
+</body>
+</html>

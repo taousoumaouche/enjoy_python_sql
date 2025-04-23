@@ -1,0 +1,30 @@
+<header>
+    <div class="logo">
+        <a href="{{ url_for('accueil') }}">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Enjoy">
+        </a>
+    </div>
+    <div class="buttons">
+        {% if not session.logged_in %}
+            <a href="/inscription_priv" class="btn connexion">
+                Devenir livreur
+            </a>
+            <a href="/connexion" class="btn connexion">
+                <i class="fas fa-home"></i> Connexion
+            </a>
+        {% else %}
+            <a href="/deconnexion" class="btn deconnexion">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+            {% if session.role == 'livreur' %}
+                <a href="/profil_priv/{{ session.user_id }}" class="btn profile">
+                    <i class="fas fa-user"></i> Profil livreur
+                </a>
+            {% elif session.role == 'client' %}
+                <a href="/profil/{{ session.user_id }}" class="btn profile">
+                    <i class="fas fa-user"></i> Profil client
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</header>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ restaurant[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome -->
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="restaurant-page">
+        <div class="restaurant-header">
+            <div class="restaurant-image">
+                <img src="{{ url_for('static', filename=restaurant[5].replace('static/', '')) }}" alt="{{ restaurant[1] }}">
+            </div>
+            <div class="restaurant-info">
+                <h1>{{ restaurant[1] }}</h1>
+                <p><i class="fas fa-map-marker-alt"></i> Adresse : {{ restaurant[2] }}</p>
+                <p><i class="fas fa-tag"></i> Catégories : {{ restaurant[7] if restaurant[7] else "Aucune catégorie" }}</p>
+                <p><i class="fas fa-clock"></i> Horaires : {{ restaurant[6] }}</p>
+                <p><i class="fas fa-shipping-fast"></i> Frais de livraison : <strong>{{ restaurant[4] }} €</strong></p>
+            </div>
+        </div>
+    </div>
+    <section class="notes-section">
+        <h2>Notes et Commentaires des Clients</h2>
+        {% if notes_clients %}
+            <ul class="notes-list">
+                {% for note in notes_clients %}
+                    <li class="note-item">
+                        <strong>{{ note[0] }} {{ note[1] }} :</strong> <!-- Nom et prénom du client -->
+                        <span class="note-stars">{% for _ in range(note[2]) %}★{% endfor %}</span> <!-- Affichage des étoiles -->
+                        <p class="commentaire">{{ note[3] if note[3] else "Aucun commentaire." }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune note ou commentaire disponible pour ce restaurant.</p>
+        {% endif %}
+    </section>
+    
+    <div class="menu-container">
+        <h2 class="section-title">Menu</h2>
+        <form method="post" action="/api/restaurants/{{ restaurant[0] }}">
+            <div class="menu-grid">
+                {% for plat in restaurant[8] %}
+                <div class="menu-card">
+                    <div class="menu-image">
+                        {% if plat[4] %}
+                        <img src="{{ url_for('static', filename=plat[4].replace('static/', '')) }}" alt="{{ plat[1] }}">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/default.png') }}" alt="Image non disponible">
+                        {% endif %}
+                    </div>
+                    <div class="menu-details">
+                        <h3>{{ plat[1] }}</h3>
+                        <p>{{ plat[3] if plat[3] else "Aucune description disponible." }}</p>
+                        <p class="menu-price">{{ plat[2] }} €</p>
+                    </div>
+                    <div class="quantity-control">
+                        <button type="button" class="decrement" onclick="decrementQuantity({{ loop.index0 }})">-</button>
+                        <input type="number" id="quantity-{{ loop.index0 }}" name="quantity-{{ loop.index0 }}" min="0" value="0">
+                        <button type="button" class="increment" onclick="incrementQuantity({{ loop.index0 }})">+</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <input type="submit" value="Finaliser ma commande" class="submit-button">
+        </form>
+    </div>
+
+    {% include 'footer.html' %}
+    {% include 'scripts.html' %}
+</body>
+</html>

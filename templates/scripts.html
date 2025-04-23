@@ -1,0 +1,117 @@
+<script>
+    document.querySelectorAll('.faq-question').forEach((question) => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const isOpen = answer.style.display === 'block';
+
+            document.querySelectorAll('.faq-answer').forEach((faq) => {
+                faq.style.display = 'none';
+                faq.previousElementSibling.classList.remove('active');
+            });
+
+            if (!isOpen) {
+                answer.style.display = 'block';
+                question.classList.add('active');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        const passwordInput = document.getElementById("mdp");
+        const icon = this;
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+</script>
+
+<script>
+    function incrementQuantity(index) {
+        const input = document.getElementById(`quantity-${index}`);
+        let value = parseInt(input.value) || 0;
+        input.value = value + 1;
+    }
+    function decrementQuantity(index) {
+        const input = document.getElementById(`quantity-${index}`);
+        let value = parseInt(input.value) || 0;
+        if (value > 0) {
+            input.value = value - 1;
+        }
+    }
+</script>
+
+<script>
+    document.getElementById("numero").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, ""); 
+        let formatted = value.match(/.{1,4}/g)?.join("-") || ""; 
+        e.target.value = formatted;
+    });
+    
+    document.querySelector("form").addEventListener("submit", function (e) {
+        let numeroField = document.getElementById("numero");
+        numeroField.value = numeroField.value.replace(/-/g, ""); 
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn-noter").forEach(button => {
+            button.addEventListener("click", () => {
+                const idCommande = button.dataset.id; 
+                ouvrirModale(idCommande);
+            });
+        });
+
+        const closeBtn = document.querySelector(".modale .close");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", fermerModale);
+        }
+    });
+
+    function ouvrirModale(idCommande) {
+        const modale = document.getElementById("modale-notation");
+        if (modale) {
+            modale.classList.remove("hidden");
+            document.getElementById("idCommande").value = idCommande;
+            console.log("Modale ouverte, commande ID :", idCommande);
+        } else {
+            console.error("Élément modale introuvable !");
+        }
+    }
+
+    function fermerModale() {
+        const modale = document.getElementById("modale-notation");
+        if (modale) {
+            modale.classList.add("hidden");
+            document.getElementById("commentaire").value = "";
+            document.querySelectorAll(".star").forEach(star => star.classList.remove("selected"));
+            console.log("Modale fermée");
+        } else {
+            console.error("Élément modale introuvable !");
+        }
+    }
+
+    function choisirEtoile(valeur) {
+    document.getElementById("note").value = valeur;
+    document.querySelectorAll(".star").forEach(star => {
+        star.classList.remove("selected");
+        if (parseInt(star.dataset.value) <= valeur) {
+            star.classList.add("selected");
+        }
+    });
+}
+</script>
+
+
+
+
+
+

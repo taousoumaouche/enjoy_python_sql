@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de profil de {{ client_p[2] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <main class="profil-page">
+        <section class="profil-header">
+            <div class="header-content">
+                <div class="profile-picture">
+                    <img src="{{ url_for('static', filename='profil.png') }}" alt="Photo de profil">
+                </div>
+                <div class="user-info">
+                    <h1>Bienvenue, {{ client_p[2] }}</h1>
+                    <p>Connecté en tant que : {{ client_p[3] }}</p>
+                </div>
+            </div>
+        </section>
+        <section class="details-section">
+            <h2>Vos informations personnelles</h2>
+            <div class="details-container">
+                <div class="detail-item">
+                    <label>Nom :</label>
+                    <span>{{ client_p[1] }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Prénom :</label>
+                    <span>{{ client_p[2] }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Numéro de téléphone :</label>
+                    <span>{{ client_p[4] }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Email :</label>
+                    <span>{{ client_p[3] }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Code postal :</label>
+                    <span>{{ client_p[8] }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Adresse :</label>
+                    <span>{{ client_p[6] }}</span>
+                </div>
+            </div>
+        </section>
+        <section class="orders-section">
+            <h2>Historique de vos commandes</h2>
+            {% if commandes %}
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Statut</th>
+                        <th>Montant (€)</th>
+                        <th>Restaurant</th>
+                        <th>Plats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                    <tr>
+                        <td>{{ commande.idComm }}</td>
+                        <td>{{ commande.statut }}</td>
+                        <td>{{ commande.montant_total }}</td>
+                        <td>{{ commande.restaurant }}</td>
+                        <td>
+                            <ul>
+                                {% for plat in commande.plats %}
+                                <li>{{ plat[0] }} - {{ plat[1] }} € x{{ plat[2] }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            {% if commande.statut == "En attente" %}
+                            <form method="post" action="{{ url_for('annuler_commande', idComm=commande.idComm) }}">
+                                <button type="submit" class="btn-cancel">Annuler</button>
+                            </form>
+                            {% elif commande.statut == "Livrée" %}
+                            <button class="btn-noter" data-id="{{ commande.idComm }}">Noter</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Vous n'avez pas encore passé de commande.</p>
+            {% endif %}
+        </section>
+        
+        <div id="modale-notation" class="modale hidden">
+            <div class="modale-content">
+                <span class="close" onclick="fermerModale()">&times;</span>
+                <h2>Noter la commande</h2>
+                <form method="post" action="/api/noter_commande" id="notation-form">
+                    <input type="hidden" name="idCommande" id="idCommande">
+                    <div class="stars">
+                        {% for i in range(1, 6) %}
+                        <span class="star" data-value="{{ i }}" onclick="choisirEtoile({{ i }})">&#9733;</span>
+                        {% endfor %}
+                        <input type="hidden" name="note" id="note">
+                    </div>
+                    <textarea name="commentaire" id="commentaire" rows="4" placeholder="Laissez un commentaire..."></textarea>
+                    <button type="submit" class="btn-submit">Envoyer</button>
+                </form>
+                
+            </div>
+        </div>
+        <section class="parrainage-fidelite-section">
+            <h2>Parrainage et Points de fidélité</h2>
+            <div class="section-content">
+                <div class="parrainage">
+                    <h3>Ajoutez votre parrain</h3>
+                    <form class="form-parrainage" method="post" action="/api/ajouter_parrain">
+                        <label for="email_parrain">Email de votre parrain :</label>
+                        <input type="email" id="email_parrain" name="email_parrain" required>
+                        <button type="submit" class="btn-validate">Valider</button>
+                    </form>
+                </div>
+                <div class="fidelity">
+                    <h3>Points de fidélité</h3>
+                    <p class="fidelity-points">Vous avez accumulé <strong>{{ points_fidelite }}</strong> points de fidélité.</p>
+                </div>
+            </div>
+        </section>
+        <div class="separator-red"></div>
+        <section class="delete-account-section">
+            <h2>Supprimer votre compte</h2>
+            <form method="POST" action="/supprimer_compte">
+                <button type="submit" class="btn-delete">Supprimer mon compte</button>
+            </form>
+        </section>
+        
+    </main>
+    {% include 'footer.html' %}
+    {% include 'scripts.html' %}
+</body>
+</html>

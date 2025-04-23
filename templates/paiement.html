@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de paiement</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome -->
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="payment-container">
+        <h1 class="payment-title">Commande finale</h1>
+        <div class="order-summary">
+            <h3>Votre commande :</h3>
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Nom du plat</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire (€)</th>
+                        <th>Sous-total (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in panier %}
+                    <tr>
+                        <td>{{ item['nom'] }}</td>
+                        <td>{{ item['quantity'] }}</td>
+                        <td>{{ item['prix'] }}</td>
+                        <td>{{ item['quantity'] * item['prix'] }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3" class="delivery-fee-label"><strong>Frais de livraison</strong></td>
+                        <td>{{ frais_livraison }} €</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="total-label"><strong>Total</strong></td>
+                        <td><strong>{{ prix + frais_livraison }} €</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="payment-form">
+            <h3>Informations de paiement</h3>
+            <form method="post" action="/api/paiement">
+                <label for="proprietaire">Nom du propriétaire :</label>
+                <input type="text" id="proprietaire" name="proprietaire" placeholder="Nom complet" required>
+
+                <label for="numero">Numéro de carte :</label>
+                <input type="text" id="numero" name="numero" placeholder="1234-5678-1234" maxlength="19" required>
+                
+                <label for="codesecret">Code Secret :</label>
+                <input type="password" id="codesecret" name="codesecret" placeholder="123" required>
+
+                <label for="date_exp">Date d'expiration :</label>
+                <input type="date" id="date_exp" name="date_exp" required>
+
+                <button type="submit" class="pay-button">Payer</button>
+            </form>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+    {% include 'footer.html' %}   
+    {% include 'scripts.html' %}
+</body>
+</html>

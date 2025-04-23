@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion privée</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome -->
+</head>
+<body>
+    {% include 'header.html' %}
+
+
+<main class="connexion-section">
+    <h2>Connexion privée </h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li style="color: red;">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+<p>Pour se connecter en tant que livreur, remplissez le formulaire ci-dessous :</p>
+<form class="connexion-form" action="/api/connexion_priv" method="POST">
+    <div class="form-group">
+        <label for="email">Matricule <span style="color: red;">*</span></label>
+        <input type="text" id="matricule" name="matricule" placeholder="Entrez votre matricule" required>
+    </div>
+    <div class="form-group">
+        <label for="mdp">Mot de passe <span style="color: red;">*</span></label>
+        <div class="password-container">
+            <input type="password" id="mdp" name="mdp" placeholder="Entrez votre mot de passe" required>
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+    </div>
+    <button type="submit" class="btn-submit">Se connecter</button>
+</form>
+
+
+
+<p>Vous n'avez pas de compte ? <a href="inscription_priv">Inscrivez-vous ici</a></p>
+{% include 'footer.html' %}
+{% include 'scripts.html' %}
+
+</main>
+</body>
+</html>
