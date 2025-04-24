@@ -73,14 +73,13 @@ utils.py                 # Fonctions de validation (email, mot de passe, matricu
 ---
 
 ## Installation et lancement  
-
-### 🧩 Installation des dépendances :  
+  
 ### Cloner le dépôt :  
 ```bash
 git clone https://github.com/taousoumaouche/enjoy_food.git
 cd enjoy_food
 ```
-
+### 🧩 Installation des dépendances :
 ```bash
 pip3 install -r requirements.txt
 ```
