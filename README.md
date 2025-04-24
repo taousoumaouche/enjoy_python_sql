@@ -4,7 +4,7 @@
 
 ## Description  
 Enjoy Food est une application web complète de gestion de livraison de repas, développée dans le cadre d'un projet de **Base de Données - L2 Informatique**.  
-Le projet est découpé en trois grandes tâches :  
+Le projet est découpé en trois grandes tâches 
 1. **Conception du schéma de base de données** (schéma conceptuel + schéma relationnel)  
 2. **Mise en place de la base de données** (dump SQL)  
 3. **Développement du site web interactif** (backend Flask, frontend HTML/CSS/JS)
